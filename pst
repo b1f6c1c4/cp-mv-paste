@@ -2,8 +2,7 @@
 
 usage() {
     cat - <<EOF
-Usage:
-    pst [-n|--dry-run|--abort] [<target>]
+Usage: pst [-n|--dry-run|--abort] [<target>]
 
     -n|--dry-run: List file operations but don't execute.
     --abort: List file operations and abort them all.

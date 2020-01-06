@@ -26,11 +26,21 @@ And then either:
 3. `ln -s` to somewhere in PATH
 
 ## Usage
+`cp` / `mv` :
 ```
-{cp,mv} <file>
-{cp,mv} -- <files> ...
+Usage:
+    {cp,mv} <file>
+    {cp,mv} -- <files> ...
 
-All other calling forms will be forwarded to /usr/bin/{cp,mv}.
+    All other calling forms will be forwarded to /usr/bin/{cp,mv}.
+```
+
+`pst`:
+```
+Usage: pst [-n|--dry-run|--abort] [<target>]
+
+    -n|--dry-run: List file operations but don't execute.
+    --abort: List file operations and abort them all.
 ```
 
 ## Limitation
