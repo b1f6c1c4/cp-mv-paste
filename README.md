@@ -37,3 +37,6 @@ All other calling forms will be forwarded to /usr/bin/{cp,mv}.
 - It doesn't support copy/move across ssh sessions.
 - The file list is persistent after reboot.
 - If you forget to `pst --abort`, you may accidentally copy/move more files than you need.
+
+## License
+MIT
