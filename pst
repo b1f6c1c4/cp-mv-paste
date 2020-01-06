@@ -1,0 +1,64 @@
+#!/bin/sh
+
+usage() {
+    cat - <<EOF
+Usage:
+    pst [-n|--dry-run|--abort] [<target>]
+
+    -n|--dry-run: List file operations but don't execute.
+    --abort: List file operations and abort them all.
+EOF
+}
+
+LST=~/.cp-mv-paste
+TARGET="$PWD"
+TARGET_SET=
+DRY_RUN=
+
+list() {
+    if [ -f "$LST/pending-cp" ]; then
+        xargs -0 -a "$LST/pending-cp" -n 1 -r -I '{}' printf 'cp -R %q %q\n' '{}' "$TARGET"
+    fi
+    if [ -f "$LST/pending-mv" ]; then
+        xargs -0 -a "$LST/pending-mv" -n 1 -r -I '{}' printf 'mv    %q %q\n' '{}' "$TARGET"
+    fi
+}
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -n | --dry-run)
+            DRY_RUN="YES"
+            ;;
+        --abort)
+            list
+            rm -f "$LST/pending-cp"
+            rm -f "$LST/pending-mv"
+            ;;
+        *)
+            if [ -z "$TARGET_SET" ]; then
+                TARGET="$1"
+                TARGET_SET="YES"
+            else
+                usage
+                exit 1
+            fi
+            ;;
+    esac
+    shift
+done
+
+list
+
+if [ ! -z "$DRY_RUN" ]; then
+    exit 0
+fi
+
+if [ -f "$LST/pending-cp" ]; then
+    xargs -0 -a "$LST/pending-cp" -n 1 -r -I '{}' cp -R '{}' "$TARGET"
+    rm -f "$LST/pending-cp"
+fi
+
+if [ -f "$LST/pending-mv" ]; then
+    xargs -0 -a "$LST/pending-mv" -n 1 -r -I '{}' mv    '{}' "$TARGET"
+    rm -f "$LST/pending-mv"
+fi
