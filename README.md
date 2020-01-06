@@ -6,10 +6,10 @@
 $ cd /src/dir
 $ cp foo
 $ mv bar
-$ cd /dst/dir
-$ pst
-C /src/dir/foo -> ./foo
-M /src/dir/bar -> ./bar
+$ cd /dst
+$ pst ./dir
+cp -R /src/dir/foo /dst/dir
+mv    /src/dir/bar /dst/dir
 $ ls
 foo     bar
 ```

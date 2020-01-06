@@ -36,7 +36,7 @@ while [ "$#" -gt 0 ]; do
             ;;
         *)
             if [ -z "$TARGET_SET" ]; then
-                TARGET="$1"
+                TARGET="$(realpath "$1")"
                 TARGET_SET="YES"
             else
                 usage
